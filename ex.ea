@@ -1,0 +1,5 @@
+ESCREVER "Valor de x:";
+VARS x = 1;
+
+
+

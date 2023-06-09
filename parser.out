@@ -1,0 +1,621 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    ENQUANTO
+    INCREMENTO
+
+Grammar
+
+Rule 0     S' -> instrucao
+Rule 1     instrucao -> declaracao
+Rule 2     instrucao -> atribuicao
+Rule 3     instrucao -> escrita
+Rule 4     instrucao -> ENTRADA
+Rule 5     instrucao -> ALEATORIO
+Rule 6     instrucao -> ciclo
+Rule 7     instrucao -> comentario
+Rule 8     declaracao -> VAR lista_variaveis
+Rule 9     lista_variaveis -> IDENTIFICADOR
+Rule 10    lista_variaveis -> lista_variaveis , IDENTIFICADOR
+Rule 11    atribuicao -> IDENTIFICADOR ATRIBUICAO expressao
+Rule 12    atribuicao -> IDENTIFICADOR ATRIBUICAO ENTRADA
+Rule 13    atribuicao -> IDENTIFICADOR ATRIBUICAO ALEATORIO
+Rule 14    expressao -> NUMERO
+Rule 15    expressao -> STRING
+Rule 16    expressao -> IDENTIFICADOR
+Rule 17    expressao -> expressao + expressao
+Rule 18    expressao -> expressao - expressao
+Rule 19    expressao -> expressao * expressao
+Rule 20    expressao -> expressao / expressao
+Rule 21    escrita -> ESCREVER STRING
+Rule 22    lista_argumentos -> argumento
+Rule 23    lista_argumentos -> lista_argumentos argumento
+Rule 24    argumento -> expressao
+Rule 25    argumento -> STRING
+Rule 26    ciclo -> PARA IDENTIFICADOR EM [ NUMERO ELIPSIS NUMERO ] FAZER instrucao FIM
+Rule 27    comentario -> COMENTARIO
+Rule 28    comentario -> COMENTARIO_MULTILINHA
+
+Terminals, with rules where they appear
+
+*                    : 19
++                    : 17
+,                    : 10
+-                    : 18
+/                    : 20
+ALEATORIO            : 5 13
+ATRIBUICAO           : 11 12 13
+COMENTARIO           : 27
+COMENTARIO_MULTILINHA : 28
+ELIPSIS              : 26
+EM                   : 26
+ENQUANTO             : 
+ENTRADA              : 4 12
+ESCREVER             : 21
+FAZER                : 26
+FIM                  : 26
+IDENTIFICADOR        : 9 10 11 12 13 16 26
+INCREMENTO           : 
+NUMERO               : 14 26 26
+PARA                 : 26
+STRING               : 15 21 25
+VAR                  : 8
+[                    : 26
+]                    : 26
+error                : 
+
+Nonterminals, with rules where they appear
+
+argumento            : 22 23
+atribuicao           : 2
+ciclo                : 6
+comentario           : 7
+declaracao           : 1
+escrita              : 3
+expressao            : 11 17 17 18 18 19 19 20 20 24
+instrucao            : 26 0
+lista_argumentos     : 23
+lista_variaveis      : 8 10
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . instrucao
+    (1) instrucao -> . declaracao
+    (2) instrucao -> . atribuicao
+    (3) instrucao -> . escrita
+    (4) instrucao -> . ENTRADA
+    (5) instrucao -> . ALEATORIO
+    (6) instrucao -> . ciclo
+    (7) instrucao -> . comentario
+    (8) declaracao -> . VAR lista_variaveis
+    (11) atribuicao -> . IDENTIFICADOR ATRIBUICAO expressao
+    (12) atribuicao -> . IDENTIFICADOR ATRIBUICAO ENTRADA
+    (13) atribuicao -> . IDENTIFICADOR ATRIBUICAO ALEATORIO
+    (21) escrita -> . ESCREVER STRING
+    (26) ciclo -> . PARA IDENTIFICADOR EM [ NUMERO ELIPSIS NUMERO ] FAZER instrucao FIM
+    (27) comentario -> . COMENTARIO
+    (28) comentario -> . COMENTARIO_MULTILINHA
+
+    ENTRADA         shift and go to state 5
+    ALEATORIO       shift and go to state 6
+    VAR             shift and go to state 9
+    IDENTIFICADOR   shift and go to state 10
+    ESCREVER        shift and go to state 11
+    PARA            shift and go to state 12
+    COMENTARIO      shift and go to state 13
+    COMENTARIO_MULTILINHA shift and go to state 14
+
+    instrucao                      shift and go to state 1
+    declaracao                     shift and go to state 2
+    atribuicao                     shift and go to state 3
+    escrita                        shift and go to state 4
+    ciclo                          shift and go to state 7
+    comentario                     shift and go to state 8
+
+state 1
+
+    (0) S' -> instrucao .
+
+
+
+state 2
+
+    (1) instrucao -> declaracao .
+
+    $end            reduce using rule 1 (instrucao -> declaracao .)
+    FIM             reduce using rule 1 (instrucao -> declaracao .)
+
+
+state 3
+
+    (2) instrucao -> atribuicao .
+
+    $end            reduce using rule 2 (instrucao -> atribuicao .)
+    FIM             reduce using rule 2 (instrucao -> atribuicao .)
+
+
+state 4
+
+    (3) instrucao -> escrita .
+
+    $end            reduce using rule 3 (instrucao -> escrita .)
+    FIM             reduce using rule 3 (instrucao -> escrita .)
+
+
+state 5
+
+    (4) instrucao -> ENTRADA .
+
+    $end            reduce using rule 4 (instrucao -> ENTRADA .)
+    FIM             reduce using rule 4 (instrucao -> ENTRADA .)
+
+
+state 6
+
+    (5) instrucao -> ALEATORIO .
+
+    $end            reduce using rule 5 (instrucao -> ALEATORIO .)
+    FIM             reduce using rule 5 (instrucao -> ALEATORIO .)
+
+
+state 7
+
+    (6) instrucao -> ciclo .
+
+    $end            reduce using rule 6 (instrucao -> ciclo .)
+    FIM             reduce using rule 6 (instrucao -> ciclo .)
+
+
+state 8
+
+    (7) instrucao -> comentario .
+
+    $end            reduce using rule 7 (instrucao -> comentario .)
+    FIM             reduce using rule 7 (instrucao -> comentario .)
+
+
+state 9
+
+    (8) declaracao -> VAR . lista_variaveis
+    (9) lista_variaveis -> . IDENTIFICADOR
+    (10) lista_variaveis -> . lista_variaveis , IDENTIFICADOR
+
+    IDENTIFICADOR   shift and go to state 16
+
+    lista_variaveis                shift and go to state 15
+
+state 10
+
+    (11) atribuicao -> IDENTIFICADOR . ATRIBUICAO expressao
+    (12) atribuicao -> IDENTIFICADOR . ATRIBUICAO ENTRADA
+    (13) atribuicao -> IDENTIFICADOR . ATRIBUICAO ALEATORIO
+
+    ATRIBUICAO      shift and go to state 17
+
+
+state 11
+
+    (21) escrita -> ESCREVER . STRING
+
+    STRING          shift and go to state 18
+
+
+state 12
+
+    (26) ciclo -> PARA . IDENTIFICADOR EM [ NUMERO ELIPSIS NUMERO ] FAZER instrucao FIM
+
+    IDENTIFICADOR   shift and go to state 19
+
+
+state 13
+
+    (27) comentario -> COMENTARIO .
+
+    $end            reduce using rule 27 (comentario -> COMENTARIO .)
+    FIM             reduce using rule 27 (comentario -> COMENTARIO .)
+
+
+state 14
+
+    (28) comentario -> COMENTARIO_MULTILINHA .
+
+    $end            reduce using rule 28 (comentario -> COMENTARIO_MULTILINHA .)
+    FIM             reduce using rule 28 (comentario -> COMENTARIO_MULTILINHA .)
+
+
+state 15
+
+    (8) declaracao -> VAR lista_variaveis .
+    (10) lista_variaveis -> lista_variaveis . , IDENTIFICADOR
+
+    $end            reduce using rule 8 (declaracao -> VAR lista_variaveis .)
+    FIM             reduce using rule 8 (declaracao -> VAR lista_variaveis .)
+    ,               shift and go to state 20
+
+
+state 16
+
+    (9) lista_variaveis -> IDENTIFICADOR .
+
+    ,               reduce using rule 9 (lista_variaveis -> IDENTIFICADOR .)
+    $end            reduce using rule 9 (lista_variaveis -> IDENTIFICADOR .)
+    FIM             reduce using rule 9 (lista_variaveis -> IDENTIFICADOR .)
+
+
+state 17
+
+    (11) atribuicao -> IDENTIFICADOR ATRIBUICAO . expressao
+    (12) atribuicao -> IDENTIFICADOR ATRIBUICAO . ENTRADA
+    (13) atribuicao -> IDENTIFICADOR ATRIBUICAO . ALEATORIO
+    (14) expressao -> . NUMERO
+    (15) expressao -> . STRING
+    (16) expressao -> . IDENTIFICADOR
+    (17) expressao -> . expressao + expressao
+    (18) expressao -> . expressao - expressao
+    (19) expressao -> . expressao * expressao
+    (20) expressao -> . expressao / expressao
+
+    ENTRADA         shift and go to state 23
+    ALEATORIO       shift and go to state 24
+    NUMERO          shift and go to state 25
+    STRING          shift and go to state 26
+    IDENTIFICADOR   shift and go to state 21
+
+    expressao                      shift and go to state 22
+
+state 18
+
+    (21) escrita -> ESCREVER STRING .
+
+    $end            reduce using rule 21 (escrita -> ESCREVER STRING .)
+    FIM             reduce using rule 21 (escrita -> ESCREVER STRING .)
+
+
+state 19
+
+    (26) ciclo -> PARA IDENTIFICADOR . EM [ NUMERO ELIPSIS NUMERO ] FAZER instrucao FIM
+
+    EM              shift and go to state 27
+
+
+state 20
+
+    (10) lista_variaveis -> lista_variaveis , . IDENTIFICADOR
+
+    IDENTIFICADOR   shift and go to state 28
+
+
+state 21
+
+    (16) expressao -> IDENTIFICADOR .
+
+    +               reduce using rule 16 (expressao -> IDENTIFICADOR .)
+    -               reduce using rule 16 (expressao -> IDENTIFICADOR .)
+    *               reduce using rule 16 (expressao -> IDENTIFICADOR .)
+    /               reduce using rule 16 (expressao -> IDENTIFICADOR .)
+    $end            reduce using rule 16 (expressao -> IDENTIFICADOR .)
+    FIM             reduce using rule 16 (expressao -> IDENTIFICADOR .)
+
+
+state 22
+
+    (11) atribuicao -> IDENTIFICADOR ATRIBUICAO expressao .
+    (17) expressao -> expressao . + expressao
+    (18) expressao -> expressao . - expressao
+    (19) expressao -> expressao . * expressao
+    (20) expressao -> expressao . / expressao
+
+    $end            reduce using rule 11 (atribuicao -> IDENTIFICADOR ATRIBUICAO expressao .)
+    FIM             reduce using rule 11 (atribuicao -> IDENTIFICADOR ATRIBUICAO expressao .)
+    +               shift and go to state 29
+    -               shift and go to state 30
+    *               shift and go to state 31
+    /               shift and go to state 32
+
+
+state 23
+
+    (12) atribuicao -> IDENTIFICADOR ATRIBUICAO ENTRADA .
+
+    $end            reduce using rule 12 (atribuicao -> IDENTIFICADOR ATRIBUICAO ENTRADA .)
+    FIM             reduce using rule 12 (atribuicao -> IDENTIFICADOR ATRIBUICAO ENTRADA .)
+
+
+state 24
+
+    (13) atribuicao -> IDENTIFICADOR ATRIBUICAO ALEATORIO .
+
+    $end            reduce using rule 13 (atribuicao -> IDENTIFICADOR ATRIBUICAO ALEATORIO .)
+    FIM             reduce using rule 13 (atribuicao -> IDENTIFICADOR ATRIBUICAO ALEATORIO .)
+
+
+state 25
+
+    (14) expressao -> NUMERO .
+
+    +               reduce using rule 14 (expressao -> NUMERO .)
+    -               reduce using rule 14 (expressao -> NUMERO .)
+    *               reduce using rule 14 (expressao -> NUMERO .)
+    /               reduce using rule 14 (expressao -> NUMERO .)
+    $end            reduce using rule 14 (expressao -> NUMERO .)
+    FIM             reduce using rule 14 (expressao -> NUMERO .)
+
+
+state 26
+
+    (15) expressao -> STRING .
+
+    +               reduce using rule 15 (expressao -> STRING .)
+    -               reduce using rule 15 (expressao -> STRING .)
+    *               reduce using rule 15 (expressao -> STRING .)
+    /               reduce using rule 15 (expressao -> STRING .)
+    $end            reduce using rule 15 (expressao -> STRING .)
+    FIM             reduce using rule 15 (expressao -> STRING .)
+
+
+state 27
+
+    (26) ciclo -> PARA IDENTIFICADOR EM . [ NUMERO ELIPSIS NUMERO ] FAZER instrucao FIM
+
+    [               shift and go to state 33
+
+
+state 28
+
+    (10) lista_variaveis -> lista_variaveis , IDENTIFICADOR .
+
+    ,               reduce using rule 10 (lista_variaveis -> lista_variaveis , IDENTIFICADOR .)
+    $end            reduce using rule 10 (lista_variaveis -> lista_variaveis , IDENTIFICADOR .)
+    FIM             reduce using rule 10 (lista_variaveis -> lista_variaveis , IDENTIFICADOR .)
+
+
+state 29
+
+    (17) expressao -> expressao + . expressao
+    (14) expressao -> . NUMERO
+    (15) expressao -> . STRING
+    (16) expressao -> . IDENTIFICADOR
+    (17) expressao -> . expressao + expressao
+    (18) expressao -> . expressao - expressao
+    (19) expressao -> . expressao * expressao
+    (20) expressao -> . expressao / expressao
+
+    NUMERO          shift and go to state 25
+    STRING          shift and go to state 26
+    IDENTIFICADOR   shift and go to state 21
+
+    expressao                      shift and go to state 34
+
+state 30
+
+    (18) expressao -> expressao - . expressao
+    (14) expressao -> . NUMERO
+    (15) expressao -> . STRING
+    (16) expressao -> . IDENTIFICADOR
+    (17) expressao -> . expressao + expressao
+    (18) expressao -> . expressao - expressao
+    (19) expressao -> . expressao * expressao
+    (20) expressao -> . expressao / expressao
+
+    NUMERO          shift and go to state 25
+    STRING          shift and go to state 26
+    IDENTIFICADOR   shift and go to state 21
+
+    expressao                      shift and go to state 35
+
+state 31
+
+    (19) expressao -> expressao * . expressao
+    (14) expressao -> . NUMERO
+    (15) expressao -> . STRING
+    (16) expressao -> . IDENTIFICADOR
+    (17) expressao -> . expressao + expressao
+    (18) expressao -> . expressao - expressao
+    (19) expressao -> . expressao * expressao
+    (20) expressao -> . expressao / expressao
+
+    NUMERO          shift and go to state 25
+    STRING          shift and go to state 26
+    IDENTIFICADOR   shift and go to state 21
+
+    expressao                      shift and go to state 36
+
+state 32
+
+    (20) expressao -> expressao / . expressao
+    (14) expressao -> . NUMERO
+    (15) expressao -> . STRING
+    (16) expressao -> . IDENTIFICADOR
+    (17) expressao -> . expressao + expressao
+    (18) expressao -> . expressao - expressao
+    (19) expressao -> . expressao * expressao
+    (20) expressao -> . expressao / expressao
+
+    NUMERO          shift and go to state 25
+    STRING          shift and go to state 26
+    IDENTIFICADOR   shift and go to state 21
+
+    expressao                      shift and go to state 37
+
+state 33
+
+    (26) ciclo -> PARA IDENTIFICADOR EM [ . NUMERO ELIPSIS NUMERO ] FAZER instrucao FIM
+
+    NUMERO          shift and go to state 38
+
+
+state 34
+
+    (17) expressao -> expressao + expressao .
+    (17) expressao -> expressao . + expressao
+    (18) expressao -> expressao . - expressao
+    (19) expressao -> expressao . * expressao
+    (20) expressao -> expressao . / expressao
+
+    +               reduce using rule 17 (expressao -> expressao + expressao .)
+    -               reduce using rule 17 (expressao -> expressao + expressao .)
+    /               reduce using rule 17 (expressao -> expressao + expressao .)
+    $end            reduce using rule 17 (expressao -> expressao + expressao .)
+    FIM             reduce using rule 17 (expressao -> expressao + expressao .)
+    *               shift and go to state 31
+
+  ! *               [ reduce using rule 17 (expressao -> expressao + expressao .) ]
+  ! +               [ shift and go to state 29 ]
+  ! -               [ shift and go to state 30 ]
+  ! /               [ shift and go to state 32 ]
+
+
+state 35
+
+    (18) expressao -> expressao - expressao .
+    (17) expressao -> expressao . + expressao
+    (18) expressao -> expressao . - expressao
+    (19) expressao -> expressao . * expressao
+    (20) expressao -> expressao . / expressao
+
+    +               reduce using rule 18 (expressao -> expressao - expressao .)
+    -               reduce using rule 18 (expressao -> expressao - expressao .)
+    /               reduce using rule 18 (expressao -> expressao - expressao .)
+    $end            reduce using rule 18 (expressao -> expressao - expressao .)
+    FIM             reduce using rule 18 (expressao -> expressao - expressao .)
+    *               shift and go to state 31
+
+  ! *               [ reduce using rule 18 (expressao -> expressao - expressao .) ]
+  ! +               [ shift and go to state 29 ]
+  ! -               [ shift and go to state 30 ]
+  ! /               [ shift and go to state 32 ]
+
+
+state 36
+
+    (19) expressao -> expressao * expressao .
+    (17) expressao -> expressao . + expressao
+    (18) expressao -> expressao . - expressao
+    (19) expressao -> expressao . * expressao
+    (20) expressao -> expressao . / expressao
+
+    +               reduce using rule 19 (expressao -> expressao * expressao .)
+    -               reduce using rule 19 (expressao -> expressao * expressao .)
+    *               reduce using rule 19 (expressao -> expressao * expressao .)
+    /               reduce using rule 19 (expressao -> expressao * expressao .)
+    $end            reduce using rule 19 (expressao -> expressao * expressao .)
+    FIM             reduce using rule 19 (expressao -> expressao * expressao .)
+
+  ! +               [ shift and go to state 29 ]
+  ! -               [ shift and go to state 30 ]
+  ! *               [ shift and go to state 31 ]
+  ! /               [ shift and go to state 32 ]
+
+
+state 37
+
+    (20) expressao -> expressao / expressao .
+    (17) expressao -> expressao . + expressao
+    (18) expressao -> expressao . - expressao
+    (19) expressao -> expressao . * expressao
+    (20) expressao -> expressao . / expressao
+
+  ! shift/reduce conflict for + resolved as shift
+  ! shift/reduce conflict for - resolved as shift
+  ! shift/reduce conflict for * resolved as shift
+  ! shift/reduce conflict for / resolved as shift
+    $end            reduce using rule 20 (expressao -> expressao / expressao .)
+    FIM             reduce using rule 20 (expressao -> expressao / expressao .)
+    +               shift and go to state 29
+    -               shift and go to state 30
+    *               shift and go to state 31
+    /               shift and go to state 32
+
+  ! +               [ reduce using rule 20 (expressao -> expressao / expressao .) ]
+  ! -               [ reduce using rule 20 (expressao -> expressao / expressao .) ]
+  ! *               [ reduce using rule 20 (expressao -> expressao / expressao .) ]
+  ! /               [ reduce using rule 20 (expressao -> expressao / expressao .) ]
+
+
+state 38
+
+    (26) ciclo -> PARA IDENTIFICADOR EM [ NUMERO . ELIPSIS NUMERO ] FAZER instrucao FIM
+
+    ELIPSIS         shift and go to state 39
+
+
+state 39
+
+    (26) ciclo -> PARA IDENTIFICADOR EM [ NUMERO ELIPSIS . NUMERO ] FAZER instrucao FIM
+
+    NUMERO          shift and go to state 40
+
+
+state 40
+
+    (26) ciclo -> PARA IDENTIFICADOR EM [ NUMERO ELIPSIS NUMERO . ] FAZER instrucao FIM
+
+    ]               shift and go to state 41
+
+
+state 41
+
+    (26) ciclo -> PARA IDENTIFICADOR EM [ NUMERO ELIPSIS NUMERO ] . FAZER instrucao FIM
+
+    FAZER           shift and go to state 42
+
+
+state 42
+
+    (26) ciclo -> PARA IDENTIFICADOR EM [ NUMERO ELIPSIS NUMERO ] FAZER . instrucao FIM
+    (1) instrucao -> . declaracao
+    (2) instrucao -> . atribuicao
+    (3) instrucao -> . escrita
+    (4) instrucao -> . ENTRADA
+    (5) instrucao -> . ALEATORIO
+    (6) instrucao -> . ciclo
+    (7) instrucao -> . comentario
+    (8) declaracao -> . VAR lista_variaveis
+    (11) atribuicao -> . IDENTIFICADOR ATRIBUICAO expressao
+    (12) atribuicao -> . IDENTIFICADOR ATRIBUICAO ENTRADA
+    (13) atribuicao -> . IDENTIFICADOR ATRIBUICAO ALEATORIO
+    (21) escrita -> . ESCREVER STRING
+    (26) ciclo -> . PARA IDENTIFICADOR EM [ NUMERO ELIPSIS NUMERO ] FAZER instrucao FIM
+    (27) comentario -> . COMENTARIO
+    (28) comentario -> . COMENTARIO_MULTILINHA
+
+    ENTRADA         shift and go to state 5
+    ALEATORIO       shift and go to state 6
+    VAR             shift and go to state 9
+    IDENTIFICADOR   shift and go to state 10
+    ESCREVER        shift and go to state 11
+    PARA            shift and go to state 12
+    COMENTARIO      shift and go to state 13
+    COMENTARIO_MULTILINHA shift and go to state 14
+
+    instrucao                      shift and go to state 43
+    declaracao                     shift and go to state 2
+    atribuicao                     shift and go to state 3
+    escrita                        shift and go to state 4
+    ciclo                          shift and go to state 7
+    comentario                     shift and go to state 8
+
+state 43
+
+    (26) ciclo -> PARA IDENTIFICADOR EM [ NUMERO ELIPSIS NUMERO ] FAZER instrucao . FIM
+
+    FIM             shift and go to state 44
+
+
+state 44
+
+    (26) ciclo -> PARA IDENTIFICADOR EM [ NUMERO ELIPSIS NUMERO ] FAZER instrucao FIM .
+
+    $end            reduce using rule 26 (ciclo -> PARA IDENTIFICADOR EM [ NUMERO ELIPSIS NUMERO ] FAZER instrucao FIM .)
+    FIM             reduce using rule 26 (ciclo -> PARA IDENTIFICADOR EM [ NUMERO ELIPSIS NUMERO ] FAZER instrucao FIM .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for + in state 37 resolved as shift
+WARNING: shift/reduce conflict for - in state 37 resolved as shift
+WARNING: shift/reduce conflict for * in state 37 resolved as shift
+WARNING: shift/reduce conflict for / in state 37 resolved as shift
