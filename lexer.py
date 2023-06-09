@@ -36,13 +36,13 @@ class ALexer:
         r'ESCREVER|escrever|esc|ESC'
         return t
 
-    def t_IDENTIFICADOR(self, t):
-        r'([a-zA-Z0-9]+[_]*|_[a-zA-Z0-9]+[_]*)'
-        return t
-
     def t_NUMERO(self, t):
         r'[0-9]+'
         t.value = int(t.value)
+        return t
+
+    def t_IDENTIFICADOR(self, t):
+        r'([a-zA-Z]+[0-9]*[_]*|_[a-zA-Z]*[0-9]*[_]*)'
         return t
 
     def t_ATRIBUICAO(self, t):
