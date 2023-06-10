@@ -106,17 +106,18 @@ class AGrammar:
 #            print("Syntax error: unexpected end of file")
 #        exit(1)
 
+class MyParser:
     precedence = (
         ('left', '+', '-'),
-        ("left", '*'),
-        ("right", 'simetrico'),
+        ('left', '*'),
+        ('right', 'simetrico'),
     )
 
     def __init__(self):
         self.yacc = None
         self.lexer = None
         self.tokens = None
-
+        self.variables = {}  # Dicionário para armazenar as variáveis e seus valores
 
     def build(self, **kwargs):
         self.lexer = ALexer()
@@ -124,74 +125,71 @@ class AGrammar:
         self.tokens = self.lexer.tokens
         self.yacc = pyacc.yacc(module=self, **kwargs)
 
-
     def parse(self, string):
         self.lexer.input(string)
         return self.yacc.parse(lexer=self.lexer.lexer)
 
     def p_s(self, p):
-        """ S : LstV ';' """
+        """S : LstV ';'"""
         p[0] = p[1]
 
-
     def p_expr_tail(self, p):
-        """ LstV :  LstV ';' Inst """
+        """LstV : LstV ';' Inst"""
         lstArgs = p[1]['args']
         lstArgs.append(p[3])
         p[0] = dict(op='seq', args=lstArgs)
 
-
     def p_expr_head(self, p):
-        """ LstV :  Inst """
+        """LstV : Inst"""
         p[0] = dict(op='seq', args=[p[1]])
 
-
     def p_expr_inst_atr(self, p):
-        """ Inst : V  """
+        """Inst : V"""
         p[0] = p[1]
 
-
     def p_expr_inst_esc(self, p):
-        """ Inst :  ESCREVER E  """
+        """Inst : ESCREVER E"""
         p[0] = {'op': 'esc', 'args': [p[2]]}
 
     def p_expr_inst_esc2(self, p):
-        """ Inst : ESCREVER STRING """
+        """Inst : ESCREVER STRING"""
         p[0] = {'op': 'esc', 'args': [p[2]]}
 
     def p_expr_atrib(self, p):
-        """ V : IDENTIFICADOR ATRIBUICAO E """
-        p[0] = dict(op='atr', args=[p[1], p[3]])
-
+        """V : IDENTIFICADOR ATRIBUICAO E"""
+        variable_name = p[1]
+        if variable_name in self.variables:
+            print(f"Error: Variable '{variable_name}' already declared.")
+            exit(1)
+        self.variables[variable_name] = p[3]
+        p[0] = dict(op='atr', args=[variable_name, p[3]])
 
     def p_expr_op(self, p):
-        """ E : E '+' E
-              | E '-' E
-              | E '*' E
-              | E ':' E """
+        """E : E '+' E
+             | E '-' E
+             | E '*' E
+             | E ':' E"""
         p[0] = dict(op=p[2], args=[p[1], p[3]])
 
-
     def p_expr_sinalmenos(self, p):
-        " E : '-' E   %prec simetrico "
-        # p[0] = -p[2]
+        """E : '-' E %prec simetrico"""
         p[0] = dict(op='-', args=[p[2]])
 
-
     def p_expr_pare(self, p):
-        """ E : '(' E ')' """
+        """E : '(' E ')'"""
         p[0] = p[2]
 
-
     def p_expr_num(self, p):
-        """ E :  NUMERO  """
+        """E : NUMERO"""
         p[0] = p[1]
 
-
     def p_expr_var(self, p):
-        """ E :  IDENTIFICADOR  """
-        p[0] = {'var': p[1]}
-
+        """E : IDENTIFICADOR"""
+        variable_name = p[1]
+        if variable_name not in self.variables:
+            print(f"Error: Variable '{variable_name}' not declared.")
+            exit(1)
+        p[0] = {'var': variable_name}
 
     def p_error(self, p):
         if p:
@@ -201,4 +199,20 @@ class AGrammar:
         exit(1)
 
 
+"""" Exemplo de uso
+parser = MyParser()
+parser.build()
 
+code = 
+    VAR ano = 2023, mes="maio", dia ;
+    valor = ENTRADA();
+    ate10 = ALEATORIO(10);
+    tmp = 7+3 ;
+    a = 10 + (30 + tmp) ;
+    a++;
+    a += 10;
+    b = tmp * (a + 10);
+    ESCREVER b
+
+parser.parse(code)
+"""
