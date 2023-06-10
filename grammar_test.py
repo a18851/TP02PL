@@ -7,13 +7,18 @@ pp = PrettyPrinter(sort_dicts=False)
 ag = AGrammar()
 ag.build()
 
-exemplos = [ # exemplos a avaliar de forma independente...
+
+#NAO LE PARENTESES BEM
+exemplos = [# exemplos a avaliar de forma independente...
             "E=10;",
-            "F=10; G=3*-5+7;"  #"3*-5+7"  3*(-5)+7
+            "F=10; G=3*-5+7;",   #"3*-5+7"  3*(-5)+7
+            "G=3*(5+7); H=G*2;",
+            "I=-2; J=I*-2; K=I+1;",
+            "ESCREVER X+1;"
             ]
 for frase in exemplos:
-    print("----------------------")
-    print("--- frase '{}'".format(frase))
-    res = ag.parse(frase)
+    print(f"----------------------")
+    print(f"--- frase '{frase}'")
+    res = ag.parse ( frase )
     print("resultado: ")
     pp.pprint(res)

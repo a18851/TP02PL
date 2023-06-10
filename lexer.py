@@ -1,4 +1,4 @@
-import ply.lex as lex
+import ply.lex as plex
 
 class ALexer:
 
@@ -8,9 +8,7 @@ class ALexer:
         'NUMERO',
         'STRING',
         'IDENTIFICADOR',
-        'INCREMENTO',
         'ATRIBUICAO',
-        'ENQUANTO',
         'PARA',
         'FAZER',
         'FIM',
@@ -23,11 +21,12 @@ class ALexer:
         'COMENTARIO_MULTILINHA'
     )
 
-    literals = "();+-*/[]^%:.{},"
-    t_ignore = "\n\t[ ]*"
+    literals =";()+-*/[]^%:.{},"
+    t_ignore = "\t "
 
 
     # Expressões regulares para os tokens
+
     def t_VAR(self, t):
         r'VARS'
         return t
@@ -42,7 +41,7 @@ class ALexer:
         return t
 
     def t_IDENTIFICADOR(self, t):
-        r'([a-zA-Z]+[0-9]*[_]*|_[a-zA-Z]*[0-9]*[_]*)'
+        r'[a-zA-Z]+'
         return t
 
     def t_ATRIBUICAO(self, t):
@@ -98,7 +97,7 @@ class ALexer:
         self.lexer = None
 
     def build(self, **kwargs):
-        self.lexer = lex.lex(module=self, **kwargs)
+        self.lexer = plex.lex(module=self, **kwargs)
 
     def input(self, string):
         self.lexer.input(string)
@@ -110,3 +109,44 @@ class ALexer:
     def t_error(self, t):
         print("Token inesperado: [{}]".format(t.value[:10]))
         exit(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
