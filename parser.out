@@ -11,7 +11,6 @@ Unused terminals:
     FAZER
     FIM
     PARA
-    VAR
 
 Grammar
 
@@ -22,49 +21,57 @@ Rule 3     LstV -> Inst
 Rule 4     Inst -> V
 Rule 5     Inst -> ESCREVER E
 Rule 6     Inst -> ESCREVER STRING
-Rule 7     V -> IDENTIFICADOR ATRIBUICAO E
-Rule 8     E -> E + E
-Rule 9     E -> E - E
-Rule 10    E -> E * E
-Rule 11    E -> E : E
-Rule 12    E -> - E
-Rule 13    E -> ( E )
-Rule 14    E -> NUMERO
-Rule 15    E -> IDENTIFICADOR
+Rule 7     Inst -> ESCREVER NUMERO
+Rule 8     Inst -> ESCREVER E , Inst
+Rule 9     Inst -> ESCREVER STRING , Inst
+Rule 10    Inst -> ESCREVER NUMERO , Inst
+Rule 11    V -> IDENTIFICADOR ATRIBUICAO E
+Rule 12    V -> IDENTIFICADOR ATRIBUICAO STRING
+Rule 13    V -> VAR IDENTIFICADOR ATRIBUICAO E
+Rule 14    V -> VAR IDENTIFICADOR ATRIBUICAO E , V
+Rule 15    E -> E + E
+Rule 16    E -> E - E
+Rule 17    E -> E * E
+Rule 18    E -> E : E
+Rule 19    E -> - E
+Rule 20    E -> ( E )
+Rule 21    E -> NUMERO
+Rule 22    E -> IDENTIFICADOR
 
 Terminals, with rules where they appear
 
-(                    : 13
-)                    : 13
-*                    : 10
-+                    : 8
--                    : 9 12
-:                    : 11
+(                    : 20
+)                    : 20
+*                    : 17
++                    : 15
+,                    : 8 9 10 14
+-                    : 16 19
+:                    : 18
 ;                    : 1 2
 ALEATORIO            : 
-ATRIBUICAO           : 7
+ATRIBUICAO           : 11 12 13 14
 COMENTARIO           : 
 COMENTARIO_MULTILINHA : 
 ELIPSIS              : 
 EM                   : 
 ENTRADA              : 
-ESCREVER             : 5 6
+ESCREVER             : 5 6 7 8 9 10
 FAZER                : 
 FIM                  : 
-IDENTIFICADOR        : 7 15
-NUMERO               : 14
+IDENTIFICADOR        : 11 12 13 14 22
+NUMERO               : 7 10 21
 PARA                 : 
-STRING               : 6
-VAR                  : 
+STRING               : 6 9 12
+VAR                  : 13 14
 error                : 
 
 Nonterminals, with rules where they appear
 
-E                    : 5 7 8 8 9 9 10 10 11 11 12 13
-Inst                 : 2 3
+E                    : 5 8 11 13 14 15 15 16 16 17 17 18 18 19 20
+Inst                 : 2 3 8 9 10
 LstV                 : 1 2
 S                    : 0
-V                    : 4
+V                    : 4 14
 
 Parsing method: LALR
 
@@ -77,10 +84,18 @@ state 0
     (4) Inst -> . V
     (5) Inst -> . ESCREVER E
     (6) Inst -> . ESCREVER STRING
-    (7) V -> . IDENTIFICADOR ATRIBUICAO E
+    (7) Inst -> . ESCREVER NUMERO
+    (8) Inst -> . ESCREVER E , Inst
+    (9) Inst -> . ESCREVER STRING , Inst
+    (10) Inst -> . ESCREVER NUMERO , Inst
+    (11) V -> . IDENTIFICADOR ATRIBUICAO E
+    (12) V -> . IDENTIFICADOR ATRIBUICAO STRING
+    (13) V -> . VAR IDENTIFICADOR ATRIBUICAO E
+    (14) V -> . VAR IDENTIFICADOR ATRIBUICAO E , V
 
     ESCREVER        shift and go to state 5
     IDENTIFICADOR   shift and go to state 6
+    VAR             shift and go to state 7
 
     S                              shift and go to state 1
     LstV                           shift and go to state 2
@@ -98,7 +113,7 @@ state 2
     (1) S -> LstV . ;
     (2) LstV -> LstV . ; Inst
 
-    ;               shift and go to state 7
+    ;               shift and go to state 8
 
 
 state 3
@@ -119,386 +134,602 @@ state 5
 
     (5) Inst -> ESCREVER . E
     (6) Inst -> ESCREVER . STRING
-    (8) E -> . E + E
-    (9) E -> . E - E
-    (10) E -> . E * E
-    (11) E -> . E : E
-    (12) E -> . - E
-    (13) E -> . ( E )
-    (14) E -> . NUMERO
-    (15) E -> . IDENTIFICADOR
+    (7) Inst -> ESCREVER . NUMERO
+    (8) Inst -> ESCREVER . E , Inst
+    (9) Inst -> ESCREVER . STRING , Inst
+    (10) Inst -> ESCREVER . NUMERO , Inst
+    (15) E -> . E + E
+    (16) E -> . E - E
+    (17) E -> . E * E
+    (18) E -> . E : E
+    (19) E -> . - E
+    (20) E -> . ( E )
+    (21) E -> . NUMERO
+    (22) E -> . IDENTIFICADOR
 
-    STRING          shift and go to state 9
-    -               shift and go to state 10
-    (               shift and go to state 11
-    NUMERO          shift and go to state 12
-    IDENTIFICADOR   shift and go to state 13
+    STRING          shift and go to state 10
+    NUMERO          shift and go to state 11
+    -               shift and go to state 12
+    (               shift and go to state 13
+    IDENTIFICADOR   shift and go to state 14
 
-    E                              shift and go to state 8
+    E                              shift and go to state 9
 
 state 6
 
-    (7) V -> IDENTIFICADOR . ATRIBUICAO E
+    (11) V -> IDENTIFICADOR . ATRIBUICAO E
+    (12) V -> IDENTIFICADOR . ATRIBUICAO STRING
 
-    ATRIBUICAO      shift and go to state 14
+    ATRIBUICAO      shift and go to state 15
 
 
 state 7
+
+    (13) V -> VAR . IDENTIFICADOR ATRIBUICAO E
+    (14) V -> VAR . IDENTIFICADOR ATRIBUICAO E , V
+
+    IDENTIFICADOR   shift and go to state 16
+
+
+state 8
 
     (1) S -> LstV ; .
     (2) LstV -> LstV ; . Inst
     (4) Inst -> . V
     (5) Inst -> . ESCREVER E
     (6) Inst -> . ESCREVER STRING
-    (7) V -> . IDENTIFICADOR ATRIBUICAO E
+    (7) Inst -> . ESCREVER NUMERO
+    (8) Inst -> . ESCREVER E , Inst
+    (9) Inst -> . ESCREVER STRING , Inst
+    (10) Inst -> . ESCREVER NUMERO , Inst
+    (11) V -> . IDENTIFICADOR ATRIBUICAO E
+    (12) V -> . IDENTIFICADOR ATRIBUICAO STRING
+    (13) V -> . VAR IDENTIFICADOR ATRIBUICAO E
+    (14) V -> . VAR IDENTIFICADOR ATRIBUICAO E , V
 
     $end            reduce using rule 1 (S -> LstV ; .)
     ESCREVER        shift and go to state 5
     IDENTIFICADOR   shift and go to state 6
+    VAR             shift and go to state 7
 
-    Inst                           shift and go to state 15
+    Inst                           shift and go to state 17
     V                              shift and go to state 4
-
-state 8
-
-    (5) Inst -> ESCREVER E .
-    (8) E -> E . + E
-    (9) E -> E . - E
-    (10) E -> E . * E
-    (11) E -> E . : E
-
-    ;               reduce using rule 5 (Inst -> ESCREVER E .)
-    +               shift and go to state 16
-    -               shift and go to state 17
-    *               shift and go to state 18
-    :               shift and go to state 19
-
 
 state 9
 
-    (6) Inst -> ESCREVER STRING .
+    (5) Inst -> ESCREVER E .
+    (8) Inst -> ESCREVER E . , Inst
+    (15) E -> E . + E
+    (16) E -> E . - E
+    (17) E -> E . * E
+    (18) E -> E . : E
 
-    ;               reduce using rule 6 (Inst -> ESCREVER STRING .)
+    ;               reduce using rule 5 (Inst -> ESCREVER E .)
+    ,               shift and go to state 18
+    +               shift and go to state 19
+    -               shift and go to state 20
+    *               shift and go to state 21
+    :               shift and go to state 22
 
 
 state 10
 
-    (12) E -> - . E
-    (8) E -> . E + E
-    (9) E -> . E - E
-    (10) E -> . E * E
-    (11) E -> . E : E
-    (12) E -> . - E
-    (13) E -> . ( E )
-    (14) E -> . NUMERO
-    (15) E -> . IDENTIFICADOR
+    (6) Inst -> ESCREVER STRING .
+    (9) Inst -> ESCREVER STRING . , Inst
 
-    -               shift and go to state 10
-    (               shift and go to state 11
-    NUMERO          shift and go to state 12
-    IDENTIFICADOR   shift and go to state 13
+    ;               reduce using rule 6 (Inst -> ESCREVER STRING .)
+    ,               shift and go to state 23
 
-    E                              shift and go to state 20
 
 state 11
 
-    (13) E -> ( . E )
-    (8) E -> . E + E
-    (9) E -> . E - E
-    (10) E -> . E * E
-    (11) E -> . E : E
-    (12) E -> . - E
-    (13) E -> . ( E )
-    (14) E -> . NUMERO
-    (15) E -> . IDENTIFICADOR
+    (7) Inst -> ESCREVER NUMERO .
+    (10) Inst -> ESCREVER NUMERO . , Inst
+    (21) E -> NUMERO .
 
-    -               shift and go to state 10
-    (               shift and go to state 11
-    NUMERO          shift and go to state 12
-    IDENTIFICADOR   shift and go to state 13
+  ! shift/reduce conflict for , resolved as shift
+  ! reduce/reduce conflict for ; resolved using rule 7 (Inst -> ESCREVER NUMERO .)
+    ;               reduce using rule 7 (Inst -> ESCREVER NUMERO .)
+    ,               shift and go to state 24
+    +               reduce using rule 21 (E -> NUMERO .)
+    -               reduce using rule 21 (E -> NUMERO .)
+    *               reduce using rule 21 (E -> NUMERO .)
+    :               reduce using rule 21 (E -> NUMERO .)
 
-    E                              shift and go to state 21
+  ! ,               [ reduce using rule 21 (E -> NUMERO .) ]
+  ! ;               [ reduce using rule 21 (E -> NUMERO .) ]
+
 
 state 12
 
-    (14) E -> NUMERO .
+    (19) E -> - . E
+    (15) E -> . E + E
+    (16) E -> . E - E
+    (17) E -> . E * E
+    (18) E -> . E : E
+    (19) E -> . - E
+    (20) E -> . ( E )
+    (21) E -> . NUMERO
+    (22) E -> . IDENTIFICADOR
 
-    +               reduce using rule 14 (E -> NUMERO .)
-    -               reduce using rule 14 (E -> NUMERO .)
-    *               reduce using rule 14 (E -> NUMERO .)
-    :               reduce using rule 14 (E -> NUMERO .)
-    ;               reduce using rule 14 (E -> NUMERO .)
-    )               reduce using rule 14 (E -> NUMERO .)
+    -               shift and go to state 12
+    (               shift and go to state 13
+    NUMERO          shift and go to state 26
+    IDENTIFICADOR   shift and go to state 14
 
+    E                              shift and go to state 25
 
 state 13
 
-    (15) E -> IDENTIFICADOR .
+    (20) E -> ( . E )
+    (15) E -> . E + E
+    (16) E -> . E - E
+    (17) E -> . E * E
+    (18) E -> . E : E
+    (19) E -> . - E
+    (20) E -> . ( E )
+    (21) E -> . NUMERO
+    (22) E -> . IDENTIFICADOR
 
-    +               reduce using rule 15 (E -> IDENTIFICADOR .)
-    -               reduce using rule 15 (E -> IDENTIFICADOR .)
-    *               reduce using rule 15 (E -> IDENTIFICADOR .)
-    :               reduce using rule 15 (E -> IDENTIFICADOR .)
-    ;               reduce using rule 15 (E -> IDENTIFICADOR .)
-    )               reduce using rule 15 (E -> IDENTIFICADOR .)
+    -               shift and go to state 12
+    (               shift and go to state 13
+    NUMERO          shift and go to state 26
+    IDENTIFICADOR   shift and go to state 14
 
+    E                              shift and go to state 27
 
 state 14
 
-    (7) V -> IDENTIFICADOR ATRIBUICAO . E
-    (8) E -> . E + E
-    (9) E -> . E - E
-    (10) E -> . E * E
-    (11) E -> . E : E
-    (12) E -> . - E
-    (13) E -> . ( E )
-    (14) E -> . NUMERO
-    (15) E -> . IDENTIFICADOR
+    (22) E -> IDENTIFICADOR .
 
-    -               shift and go to state 10
-    (               shift and go to state 11
-    NUMERO          shift and go to state 12
-    IDENTIFICADOR   shift and go to state 13
+    ,               reduce using rule 22 (E -> IDENTIFICADOR .)
+    +               reduce using rule 22 (E -> IDENTIFICADOR .)
+    -               reduce using rule 22 (E -> IDENTIFICADOR .)
+    *               reduce using rule 22 (E -> IDENTIFICADOR .)
+    :               reduce using rule 22 (E -> IDENTIFICADOR .)
+    ;               reduce using rule 22 (E -> IDENTIFICADOR .)
+    )               reduce using rule 22 (E -> IDENTIFICADOR .)
 
-    E                              shift and go to state 22
 
 state 15
+
+    (11) V -> IDENTIFICADOR ATRIBUICAO . E
+    (12) V -> IDENTIFICADOR ATRIBUICAO . STRING
+    (15) E -> . E + E
+    (16) E -> . E - E
+    (17) E -> . E * E
+    (18) E -> . E : E
+    (19) E -> . - E
+    (20) E -> . ( E )
+    (21) E -> . NUMERO
+    (22) E -> . IDENTIFICADOR
+
+    STRING          shift and go to state 29
+    -               shift and go to state 12
+    (               shift and go to state 13
+    NUMERO          shift and go to state 26
+    IDENTIFICADOR   shift and go to state 14
+
+    E                              shift and go to state 28
+
+state 16
+
+    (13) V -> VAR IDENTIFICADOR . ATRIBUICAO E
+    (14) V -> VAR IDENTIFICADOR . ATRIBUICAO E , V
+
+    ATRIBUICAO      shift and go to state 30
+
+
+state 17
 
     (2) LstV -> LstV ; Inst .
 
     ;               reduce using rule 2 (LstV -> LstV ; Inst .)
 
 
-state 16
-
-    (8) E -> E + . E
-    (8) E -> . E + E
-    (9) E -> . E - E
-    (10) E -> . E * E
-    (11) E -> . E : E
-    (12) E -> . - E
-    (13) E -> . ( E )
-    (14) E -> . NUMERO
-    (15) E -> . IDENTIFICADOR
-
-    -               shift and go to state 10
-    (               shift and go to state 11
-    NUMERO          shift and go to state 12
-    IDENTIFICADOR   shift and go to state 13
-
-    E                              shift and go to state 23
-
-state 17
-
-    (9) E -> E - . E
-    (8) E -> . E + E
-    (9) E -> . E - E
-    (10) E -> . E * E
-    (11) E -> . E : E
-    (12) E -> . - E
-    (13) E -> . ( E )
-    (14) E -> . NUMERO
-    (15) E -> . IDENTIFICADOR
-
-    -               shift and go to state 10
-    (               shift and go to state 11
-    NUMERO          shift and go to state 12
-    IDENTIFICADOR   shift and go to state 13
-
-    E                              shift and go to state 24
-
 state 18
 
-    (10) E -> E * . E
-    (8) E -> . E + E
-    (9) E -> . E - E
-    (10) E -> . E * E
-    (11) E -> . E : E
-    (12) E -> . - E
-    (13) E -> . ( E )
-    (14) E -> . NUMERO
-    (15) E -> . IDENTIFICADOR
+    (8) Inst -> ESCREVER E , . Inst
+    (4) Inst -> . V
+    (5) Inst -> . ESCREVER E
+    (6) Inst -> . ESCREVER STRING
+    (7) Inst -> . ESCREVER NUMERO
+    (8) Inst -> . ESCREVER E , Inst
+    (9) Inst -> . ESCREVER STRING , Inst
+    (10) Inst -> . ESCREVER NUMERO , Inst
+    (11) V -> . IDENTIFICADOR ATRIBUICAO E
+    (12) V -> . IDENTIFICADOR ATRIBUICAO STRING
+    (13) V -> . VAR IDENTIFICADOR ATRIBUICAO E
+    (14) V -> . VAR IDENTIFICADOR ATRIBUICAO E , V
 
-    -               shift and go to state 10
-    (               shift and go to state 11
-    NUMERO          shift and go to state 12
-    IDENTIFICADOR   shift and go to state 13
+    ESCREVER        shift and go to state 5
+    IDENTIFICADOR   shift and go to state 6
+    VAR             shift and go to state 7
 
-    E                              shift and go to state 25
+    Inst                           shift and go to state 31
+    V                              shift and go to state 4
 
 state 19
 
-    (11) E -> E : . E
-    (8) E -> . E + E
-    (9) E -> . E - E
-    (10) E -> . E * E
-    (11) E -> . E : E
-    (12) E -> . - E
-    (13) E -> . ( E )
-    (14) E -> . NUMERO
-    (15) E -> . IDENTIFICADOR
+    (15) E -> E + . E
+    (15) E -> . E + E
+    (16) E -> . E - E
+    (17) E -> . E * E
+    (18) E -> . E : E
+    (19) E -> . - E
+    (20) E -> . ( E )
+    (21) E -> . NUMERO
+    (22) E -> . IDENTIFICADOR
 
-    -               shift and go to state 10
-    (               shift and go to state 11
-    NUMERO          shift and go to state 12
-    IDENTIFICADOR   shift and go to state 13
+    -               shift and go to state 12
+    (               shift and go to state 13
+    NUMERO          shift and go to state 26
+    IDENTIFICADOR   shift and go to state 14
 
-    E                              shift and go to state 26
+    E                              shift and go to state 32
 
 state 20
 
-    (12) E -> - E .
-    (8) E -> E . + E
-    (9) E -> E . - E
-    (10) E -> E . * E
-    (11) E -> E . : E
+    (16) E -> E - . E
+    (15) E -> . E + E
+    (16) E -> . E - E
+    (17) E -> . E * E
+    (18) E -> . E : E
+    (19) E -> . - E
+    (20) E -> . ( E )
+    (21) E -> . NUMERO
+    (22) E -> . IDENTIFICADOR
 
-    +               reduce using rule 12 (E -> - E .)
-    -               reduce using rule 12 (E -> - E .)
-    *               reduce using rule 12 (E -> - E .)
-    :               reduce using rule 12 (E -> - E .)
-    ;               reduce using rule 12 (E -> - E .)
-    )               reduce using rule 12 (E -> - E .)
+    -               shift and go to state 12
+    (               shift and go to state 13
+    NUMERO          shift and go to state 26
+    IDENTIFICADOR   shift and go to state 14
 
-  ! +               [ shift and go to state 16 ]
-  ! -               [ shift and go to state 17 ]
-  ! *               [ shift and go to state 18 ]
-  ! :               [ shift and go to state 19 ]
-
+    E                              shift and go to state 33
 
 state 21
 
-    (13) E -> ( E . )
-    (8) E -> E . + E
-    (9) E -> E . - E
-    (10) E -> E . * E
-    (11) E -> E . : E
+    (17) E -> E * . E
+    (15) E -> . E + E
+    (16) E -> . E - E
+    (17) E -> . E * E
+    (18) E -> . E : E
+    (19) E -> . - E
+    (20) E -> . ( E )
+    (21) E -> . NUMERO
+    (22) E -> . IDENTIFICADOR
 
-    )               shift and go to state 27
-    +               shift and go to state 16
-    -               shift and go to state 17
-    *               shift and go to state 18
-    :               shift and go to state 19
+    -               shift and go to state 12
+    (               shift and go to state 13
+    NUMERO          shift and go to state 26
+    IDENTIFICADOR   shift and go to state 14
 
+    E                              shift and go to state 34
 
 state 22
 
-    (7) V -> IDENTIFICADOR ATRIBUICAO E .
-    (8) E -> E . + E
-    (9) E -> E . - E
-    (10) E -> E . * E
-    (11) E -> E . : E
+    (18) E -> E : . E
+    (15) E -> . E + E
+    (16) E -> . E - E
+    (17) E -> . E * E
+    (18) E -> . E : E
+    (19) E -> . - E
+    (20) E -> . ( E )
+    (21) E -> . NUMERO
+    (22) E -> . IDENTIFICADOR
 
-    ;               reduce using rule 7 (V -> IDENTIFICADOR ATRIBUICAO E .)
-    +               shift and go to state 16
-    -               shift and go to state 17
-    *               shift and go to state 18
-    :               shift and go to state 19
+    -               shift and go to state 12
+    (               shift and go to state 13
+    NUMERO          shift and go to state 26
+    IDENTIFICADOR   shift and go to state 14
 
+    E                              shift and go to state 35
 
 state 23
 
-    (8) E -> E + E .
-    (8) E -> E . + E
-    (9) E -> E . - E
-    (10) E -> E . * E
-    (11) E -> E . : E
+    (9) Inst -> ESCREVER STRING , . Inst
+    (4) Inst -> . V
+    (5) Inst -> . ESCREVER E
+    (6) Inst -> . ESCREVER STRING
+    (7) Inst -> . ESCREVER NUMERO
+    (8) Inst -> . ESCREVER E , Inst
+    (9) Inst -> . ESCREVER STRING , Inst
+    (10) Inst -> . ESCREVER NUMERO , Inst
+    (11) V -> . IDENTIFICADOR ATRIBUICAO E
+    (12) V -> . IDENTIFICADOR ATRIBUICAO STRING
+    (13) V -> . VAR IDENTIFICADOR ATRIBUICAO E
+    (14) V -> . VAR IDENTIFICADOR ATRIBUICAO E , V
 
-    +               reduce using rule 8 (E -> E + E .)
-    -               reduce using rule 8 (E -> E + E .)
-    :               reduce using rule 8 (E -> E + E .)
-    ;               reduce using rule 8 (E -> E + E .)
-    )               reduce using rule 8 (E -> E + E .)
-    *               shift and go to state 18
+    ESCREVER        shift and go to state 5
+    IDENTIFICADOR   shift and go to state 6
+    VAR             shift and go to state 7
 
-  ! *               [ reduce using rule 8 (E -> E + E .) ]
-  ! +               [ shift and go to state 16 ]
-  ! -               [ shift and go to state 17 ]
-  ! :               [ shift and go to state 19 ]
-
+    Inst                           shift and go to state 36
+    V                              shift and go to state 4
 
 state 24
 
-    (9) E -> E - E .
-    (8) E -> E . + E
-    (9) E -> E . - E
-    (10) E -> E . * E
-    (11) E -> E . : E
+    (10) Inst -> ESCREVER NUMERO , . Inst
+    (4) Inst -> . V
+    (5) Inst -> . ESCREVER E
+    (6) Inst -> . ESCREVER STRING
+    (7) Inst -> . ESCREVER NUMERO
+    (8) Inst -> . ESCREVER E , Inst
+    (9) Inst -> . ESCREVER STRING , Inst
+    (10) Inst -> . ESCREVER NUMERO , Inst
+    (11) V -> . IDENTIFICADOR ATRIBUICAO E
+    (12) V -> . IDENTIFICADOR ATRIBUICAO STRING
+    (13) V -> . VAR IDENTIFICADOR ATRIBUICAO E
+    (14) V -> . VAR IDENTIFICADOR ATRIBUICAO E , V
 
-    +               reduce using rule 9 (E -> E - E .)
-    -               reduce using rule 9 (E -> E - E .)
-    :               reduce using rule 9 (E -> E - E .)
-    ;               reduce using rule 9 (E -> E - E .)
-    )               reduce using rule 9 (E -> E - E .)
-    *               shift and go to state 18
+    ESCREVER        shift and go to state 5
+    IDENTIFICADOR   shift and go to state 6
+    VAR             shift and go to state 7
 
-  ! *               [ reduce using rule 9 (E -> E - E .) ]
-  ! +               [ shift and go to state 16 ]
-  ! -               [ shift and go to state 17 ]
-  ! :               [ shift and go to state 19 ]
-
+    Inst                           shift and go to state 37
+    V                              shift and go to state 4
 
 state 25
 
-    (10) E -> E * E .
-    (8) E -> E . + E
-    (9) E -> E . - E
-    (10) E -> E . * E
-    (11) E -> E . : E
+    (19) E -> - E .
+    (15) E -> E . + E
+    (16) E -> E . - E
+    (17) E -> E . * E
+    (18) E -> E . : E
 
-    +               reduce using rule 10 (E -> E * E .)
-    -               reduce using rule 10 (E -> E * E .)
-    *               reduce using rule 10 (E -> E * E .)
-    :               reduce using rule 10 (E -> E * E .)
-    ;               reduce using rule 10 (E -> E * E .)
-    )               reduce using rule 10 (E -> E * E .)
+    ,               reduce using rule 19 (E -> - E .)
+    +               reduce using rule 19 (E -> - E .)
+    -               reduce using rule 19 (E -> - E .)
+    *               reduce using rule 19 (E -> - E .)
+    :               reduce using rule 19 (E -> - E .)
+    ;               reduce using rule 19 (E -> - E .)
+    )               reduce using rule 19 (E -> - E .)
 
-  ! +               [ shift and go to state 16 ]
-  ! -               [ shift and go to state 17 ]
-  ! *               [ shift and go to state 18 ]
-  ! :               [ shift and go to state 19 ]
+  ! +               [ shift and go to state 19 ]
+  ! -               [ shift and go to state 20 ]
+  ! *               [ shift and go to state 21 ]
+  ! :               [ shift and go to state 22 ]
 
 
 state 26
 
-    (11) E -> E : E .
-    (8) E -> E . + E
-    (9) E -> E . - E
-    (10) E -> E . * E
-    (11) E -> E . : E
+    (21) E -> NUMERO .
+
+    +               reduce using rule 21 (E -> NUMERO .)
+    -               reduce using rule 21 (E -> NUMERO .)
+    *               reduce using rule 21 (E -> NUMERO .)
+    :               reduce using rule 21 (E -> NUMERO .)
+    ,               reduce using rule 21 (E -> NUMERO .)
+    ;               reduce using rule 21 (E -> NUMERO .)
+    )               reduce using rule 21 (E -> NUMERO .)
+
+
+state 27
+
+    (20) E -> ( E . )
+    (15) E -> E . + E
+    (16) E -> E . - E
+    (17) E -> E . * E
+    (18) E -> E . : E
+
+    )               shift and go to state 38
+    +               shift and go to state 19
+    -               shift and go to state 20
+    *               shift and go to state 21
+    :               shift and go to state 22
+
+
+state 28
+
+    (11) V -> IDENTIFICADOR ATRIBUICAO E .
+    (15) E -> E . + E
+    (16) E -> E . - E
+    (17) E -> E . * E
+    (18) E -> E . : E
+
+    ;               reduce using rule 11 (V -> IDENTIFICADOR ATRIBUICAO E .)
+    +               shift and go to state 19
+    -               shift and go to state 20
+    *               shift and go to state 21
+    :               shift and go to state 22
+
+
+state 29
+
+    (12) V -> IDENTIFICADOR ATRIBUICAO STRING .
+
+    ;               reduce using rule 12 (V -> IDENTIFICADOR ATRIBUICAO STRING .)
+
+
+state 30
+
+    (13) V -> VAR IDENTIFICADOR ATRIBUICAO . E
+    (14) V -> VAR IDENTIFICADOR ATRIBUICAO . E , V
+    (15) E -> . E + E
+    (16) E -> . E - E
+    (17) E -> . E * E
+    (18) E -> . E : E
+    (19) E -> . - E
+    (20) E -> . ( E )
+    (21) E -> . NUMERO
+    (22) E -> . IDENTIFICADOR
+
+    -               shift and go to state 12
+    (               shift and go to state 13
+    NUMERO          shift and go to state 26
+    IDENTIFICADOR   shift and go to state 14
+
+    E                              shift and go to state 39
+
+state 31
+
+    (8) Inst -> ESCREVER E , Inst .
+
+    ;               reduce using rule 8 (Inst -> ESCREVER E , Inst .)
+
+
+state 32
+
+    (15) E -> E + E .
+    (15) E -> E . + E
+    (16) E -> E . - E
+    (17) E -> E . * E
+    (18) E -> E . : E
+
+    ,               reduce using rule 15 (E -> E + E .)
+    +               reduce using rule 15 (E -> E + E .)
+    -               reduce using rule 15 (E -> E + E .)
+    :               reduce using rule 15 (E -> E + E .)
+    ;               reduce using rule 15 (E -> E + E .)
+    )               reduce using rule 15 (E -> E + E .)
+    *               shift and go to state 21
+
+  ! *               [ reduce using rule 15 (E -> E + E .) ]
+  ! +               [ shift and go to state 19 ]
+  ! -               [ shift and go to state 20 ]
+  ! :               [ shift and go to state 22 ]
+
+
+state 33
+
+    (16) E -> E - E .
+    (15) E -> E . + E
+    (16) E -> E . - E
+    (17) E -> E . * E
+    (18) E -> E . : E
+
+    ,               reduce using rule 16 (E -> E - E .)
+    +               reduce using rule 16 (E -> E - E .)
+    -               reduce using rule 16 (E -> E - E .)
+    :               reduce using rule 16 (E -> E - E .)
+    ;               reduce using rule 16 (E -> E - E .)
+    )               reduce using rule 16 (E -> E - E .)
+    *               shift and go to state 21
+
+  ! *               [ reduce using rule 16 (E -> E - E .) ]
+  ! +               [ shift and go to state 19 ]
+  ! -               [ shift and go to state 20 ]
+  ! :               [ shift and go to state 22 ]
+
+
+state 34
+
+    (17) E -> E * E .
+    (15) E -> E . + E
+    (16) E -> E . - E
+    (17) E -> E . * E
+    (18) E -> E . : E
+
+    ,               reduce using rule 17 (E -> E * E .)
+    +               reduce using rule 17 (E -> E * E .)
+    -               reduce using rule 17 (E -> E * E .)
+    *               reduce using rule 17 (E -> E * E .)
+    :               reduce using rule 17 (E -> E * E .)
+    ;               reduce using rule 17 (E -> E * E .)
+    )               reduce using rule 17 (E -> E * E .)
+
+  ! +               [ shift and go to state 19 ]
+  ! -               [ shift and go to state 20 ]
+  ! *               [ shift and go to state 21 ]
+  ! :               [ shift and go to state 22 ]
+
+
+state 35
+
+    (18) E -> E : E .
+    (15) E -> E . + E
+    (16) E -> E . - E
+    (17) E -> E . * E
+    (18) E -> E . : E
 
   ! shift/reduce conflict for + resolved as shift
   ! shift/reduce conflict for - resolved as shift
   ! shift/reduce conflict for * resolved as shift
   ! shift/reduce conflict for : resolved as shift
-    ;               reduce using rule 11 (E -> E : E .)
-    )               reduce using rule 11 (E -> E : E .)
-    +               shift and go to state 16
-    -               shift and go to state 17
-    *               shift and go to state 18
-    :               shift and go to state 19
+    ,               reduce using rule 18 (E -> E : E .)
+    ;               reduce using rule 18 (E -> E : E .)
+    )               reduce using rule 18 (E -> E : E .)
+    +               shift and go to state 19
+    -               shift and go to state 20
+    *               shift and go to state 21
+    :               shift and go to state 22
 
-  ! +               [ reduce using rule 11 (E -> E : E .) ]
-  ! -               [ reduce using rule 11 (E -> E : E .) ]
-  ! *               [ reduce using rule 11 (E -> E : E .) ]
-  ! :               [ reduce using rule 11 (E -> E : E .) ]
+  ! +               [ reduce using rule 18 (E -> E : E .) ]
+  ! -               [ reduce using rule 18 (E -> E : E .) ]
+  ! *               [ reduce using rule 18 (E -> E : E .) ]
+  ! :               [ reduce using rule 18 (E -> E : E .) ]
 
 
-state 27
+state 36
 
-    (13) E -> ( E ) .
+    (9) Inst -> ESCREVER STRING , Inst .
 
-    +               reduce using rule 13 (E -> ( E ) .)
-    -               reduce using rule 13 (E -> ( E ) .)
-    *               reduce using rule 13 (E -> ( E ) .)
-    :               reduce using rule 13 (E -> ( E ) .)
-    ;               reduce using rule 13 (E -> ( E ) .)
-    )               reduce using rule 13 (E -> ( E ) .)
+    ;               reduce using rule 9 (Inst -> ESCREVER STRING , Inst .)
+
+
+state 37
+
+    (10) Inst -> ESCREVER NUMERO , Inst .
+
+    ;               reduce using rule 10 (Inst -> ESCREVER NUMERO , Inst .)
+
+
+state 38
+
+    (20) E -> ( E ) .
+
+    ,               reduce using rule 20 (E -> ( E ) .)
+    +               reduce using rule 20 (E -> ( E ) .)
+    -               reduce using rule 20 (E -> ( E ) .)
+    *               reduce using rule 20 (E -> ( E ) .)
+    :               reduce using rule 20 (E -> ( E ) .)
+    ;               reduce using rule 20 (E -> ( E ) .)
+    )               reduce using rule 20 (E -> ( E ) .)
+
+
+state 39
+
+    (13) V -> VAR IDENTIFICADOR ATRIBUICAO E .
+    (14) V -> VAR IDENTIFICADOR ATRIBUICAO E . , V
+    (15) E -> E . + E
+    (16) E -> E . - E
+    (17) E -> E . * E
+    (18) E -> E . : E
+
+    ;               reduce using rule 13 (V -> VAR IDENTIFICADOR ATRIBUICAO E .)
+    ,               shift and go to state 40
+    +               shift and go to state 19
+    -               shift and go to state 20
+    *               shift and go to state 21
+    :               shift and go to state 22
+
+
+state 40
+
+    (14) V -> VAR IDENTIFICADOR ATRIBUICAO E , . V
+    (11) V -> . IDENTIFICADOR ATRIBUICAO E
+    (12) V -> . IDENTIFICADOR ATRIBUICAO STRING
+    (13) V -> . VAR IDENTIFICADOR ATRIBUICAO E
+    (14) V -> . VAR IDENTIFICADOR ATRIBUICAO E , V
+
+    IDENTIFICADOR   shift and go to state 6
+    VAR             shift and go to state 7
+
+    V                              shift and go to state 41
+
+state 41
+
+    (14) V -> VAR IDENTIFICADOR ATRIBUICAO E , V .
+
+    ;               reduce using rule 14 (V -> VAR IDENTIFICADOR ATRIBUICAO E , V .)
 
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
-WARNING: shift/reduce conflict for + in state 26 resolved as shift
-WARNING: shift/reduce conflict for - in state 26 resolved as shift
-WARNING: shift/reduce conflict for * in state 26 resolved as shift
-WARNING: shift/reduce conflict for : in state 26 resolved as shift
+WARNING: shift/reduce conflict for , in state 11 resolved as shift
+WARNING: shift/reduce conflict for + in state 35 resolved as shift
+WARNING: shift/reduce conflict for - in state 35 resolved as shift
+WARNING: shift/reduce conflict for * in state 35 resolved as shift
+WARNING: shift/reduce conflict for : in state 35 resolved as shift
+WARNING: reduce/reduce conflict in state 11 resolved using rule (Inst -> ESCREVER NUMERO)
+WARNING: rejected rule (E -> NUMERO) in state 11

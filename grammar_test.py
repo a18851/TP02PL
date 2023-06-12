@@ -6,15 +6,15 @@ pp = PrettyPrinter(sort_dicts=False)
 
 ag = AGrammar()
 ag.build()
-
+string = "ola mundo"
 
 #NAO LE PARENTESES BEM
 exemplos = [# exemplos a avaliar de forma independente...
             "E=10;",
             "F=10; G=3*-5+7;",   #"3*-5+7"  3*(-5)+7
-            "G=3*(5+7); H=G*2;",
+            "G=3*F; H=G*2;",
             "I=-2; J=I*-2; K=I+1;",
-            "ESCREVER X+1;"
+            "ESCREVER 'fefefe', 2 ;"
             ]
 for frase in exemplos:
     print(f"----------------------")

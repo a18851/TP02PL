@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = "left+-left*rightsimetricoALEATORIO ATRIBUICAO COMENTARIO COMENTARIO_MULTILINHA ELIPSIS EM ENTRADA ESCREVER FAZER FIM IDENTIFICADOR NUMERO PARA STRING VAR S : LstV ';'  LstV :  LstV ';' Inst  LstV :  Inst  Inst : V   Inst :  ESCREVER E   Inst : ESCREVER STRING  V : IDENTIFICADOR ATRIBUICAO E  E : E '+' E\n              | E '-' E\n              | E '*' E\n              | E ':' E  E : '-' E   %prec simetrico  E : '(' E ')'  E :  NUMERO   E :  IDENTIFICADOR  "
+_lr_signature = "left+-left*rightsimetricoALEATORIO ATRIBUICAO COMENTARIO COMENTARIO_MULTILINHA ELIPSIS EM ENTRADA ESCREVER FAZER FIM IDENTIFICADOR NUMERO PARA STRING VARS : LstV ';'LstV : LstV ';' InstLstV : InstInst : VInst : ESCREVER E\n                | ESCREVER STRING\n                | ESCREVER NUMERO  Inst : ESCREVER E ',' Inst\n                 | ESCREVER STRING ',' Inst\n                 | ESCREVER NUMERO ',' InstV : IDENTIFICADOR ATRIBUICAO E\n             | IDENTIFICADOR ATRIBUICAO STRING V : VAR IDENTIFICADOR ATRIBUICAO E\n             | VAR IDENTIFICADOR ATRIBUICAO E ',' VE : E '+' E\n             | E '-' E\n             | E '*' E\n             | E ':' EE : '-' E %prec simetricoE : '(' E ')'E : NUMEROE : IDENTIFICADOR"
     
-_lr_action_items = {'ESCREVER':([0,7,],[5,5,]),'IDENTIFICADOR':([0,5,7,10,11,14,16,17,18,19,],[6,13,6,13,13,13,13,13,13,13,]),'$end':([1,7,],[0,-1,]),';':([2,3,4,8,9,12,13,15,20,22,23,24,25,26,27,],[7,-3,-4,-5,-6,-14,-15,-2,-12,-7,-8,-9,-10,-11,-13,]),'STRING':([5,],[9,]),'-':([5,8,10,11,12,13,14,16,17,18,19,20,21,22,23,24,25,26,27,],[10,17,10,10,-14,-15,10,10,10,10,10,-12,17,17,-8,-9,-10,17,-13,]),'(':([5,10,11,14,16,17,18,19,],[11,11,11,11,11,11,11,11,]),'NUMERO':([5,10,11,14,16,17,18,19,],[12,12,12,12,12,12,12,12,]),'ATRIBUICAO':([6,],[14,]),'+':([8,12,13,20,21,22,23,24,25,26,27,],[16,-14,-15,-12,16,16,-8,-9,-10,16,-13,]),'*':([8,12,13,20,21,22,23,24,25,26,27,],[18,-14,-15,-12,18,18,18,18,-10,18,-13,]),':':([8,12,13,20,21,22,23,24,25,26,27,],[19,-14,-15,-12,19,19,-8,-9,-10,19,-13,]),')':([12,13,20,21,23,24,25,26,27,],[-14,-15,-12,27,-8,-9,-10,-11,-13,]),}
+_lr_action_items = {'ESCREVER':([0,8,18,23,24,],[5,5,5,5,5,]),'IDENTIFICADOR':([0,5,7,8,12,13,15,18,19,20,21,22,23,24,30,40,],[6,14,16,6,14,14,14,6,14,14,14,14,6,6,14,6,]),'VAR':([0,8,18,23,24,40,],[7,7,7,7,7,7,]),'$end':([1,8,],[0,-1,]),';':([2,3,4,9,10,11,14,17,25,26,28,29,31,32,33,34,35,36,37,38,39,41,],[8,-3,-4,-5,-6,-7,-22,-2,-19,-21,-11,-12,-8,-15,-16,-17,-18,-9,-10,-20,-13,-14,]),'STRING':([5,15,],[10,29,]),'NUMERO':([5,12,13,15,19,20,21,22,30,],[11,26,26,26,26,26,26,26,26,]),'-':([5,9,11,12,13,14,15,19,20,21,22,25,26,27,28,30,32,33,34,35,38,39,],[12,20,-21,12,12,-22,12,12,12,12,12,-19,-21,20,20,12,-15,-16,-17,20,-20,20,]),'(':([5,12,13,15,19,20,21,22,30,],[13,13,13,13,13,13,13,13,13,]),'ATRIBUICAO':([6,16,],[15,30,]),',':([9,10,11,14,25,26,32,33,34,35,38,39,],[18,23,24,-22,-19,-21,-15,-16,-17,-18,-20,40,]),'+':([9,11,14,25,26,27,28,32,33,34,35,38,39,],[19,-21,-22,-19,-21,19,19,-15,-16,-17,19,-20,19,]),'*':([9,11,14,25,26,27,28,32,33,34,35,38,39,],[21,-21,-22,-19,-21,21,21,21,21,-17,21,-20,21,]),':':([9,11,14,25,26,27,28,32,33,34,35,38,39,],[22,-21,-22,-19,-21,22,22,-15,-16,-17,22,-20,22,]),')':([14,25,26,27,32,33,34,35,38,],[-22,-19,-21,38,-15,-16,-17,-18,-20,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'S':([0,],[1,]),'LstV':([0,],[2,]),'Inst':([0,7,],[3,15,]),'V':([0,7,],[4,4,]),'E':([5,10,11,14,16,17,18,19,],[8,20,21,22,23,24,25,26,]),}
+_lr_goto_items = {'S':([0,],[1,]),'LstV':([0,],[2,]),'Inst':([0,8,18,23,24,],[3,17,31,36,37,]),'V':([0,8,18,23,24,40,],[4,4,4,4,4,41,]),'E':([5,12,13,15,19,20,21,22,30,],[9,25,27,28,32,33,34,35,39,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,19 +27,26 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> S","S'",1,None,None,None),
-  ('S -> LstV ;','S',2,'p_s','grammar.py',133),
-  ('LstV -> LstV ; Inst','LstV',3,'p_expr_tail','grammar.py',138),
-  ('LstV -> Inst','LstV',1,'p_expr_head','grammar.py',145),
-  ('Inst -> V','Inst',1,'p_expr_inst_atr','grammar.py',150),
-  ('Inst -> ESCREVER E','Inst',2,'p_expr_inst_esc','grammar.py',155),
-  ('Inst -> ESCREVER STRING','Inst',2,'p_expr_inst_esc2','grammar.py',159),
-  ('V -> IDENTIFICADOR ATRIBUICAO E','V',3,'p_expr_atrib','grammar.py',163),
-  ('E -> E + E','E',3,'p_expr_op','grammar.py',168),
-  ('E -> E - E','E',3,'p_expr_op','grammar.py',169),
-  ('E -> E * E','E',3,'p_expr_op','grammar.py',170),
-  ('E -> E : E','E',3,'p_expr_op','grammar.py',171),
-  ('E -> - E','E',2,'p_expr_sinalmenos','grammar.py',176),
-  ('E -> ( E )','E',3,'p_expr_pare','grammar.py',182),
-  ('E -> NUMERO','E',1,'p_expr_num','grammar.py',187),
-  ('E -> IDENTIFICADOR','E',1,'p_expr_var','grammar.py',192),
+  ('S -> LstV ;','S',2,'p_s','grammar.py',132),
+  ('LstV -> LstV ; Inst','LstV',3,'p_expr_tail','grammar.py',136),
+  ('LstV -> Inst','LstV',1,'p_expr_head','grammar.py',142),
+  ('Inst -> V','Inst',1,'p_expr_inst_atr','grammar.py',146),
+  ('Inst -> ESCREVER E','Inst',2,'p_expr_inst_esc','grammar.py',150),
+  ('Inst -> ESCREVER STRING','Inst',2,'p_expr_inst_esc','grammar.py',151),
+  ('Inst -> ESCREVER NUMERO','Inst',2,'p_expr_inst_esc','grammar.py',152),
+  ('Inst -> ESCREVER E , Inst','Inst',4,'p_expr_inst_esc2','grammar.py',156),
+  ('Inst -> ESCREVER STRING , Inst','Inst',4,'p_expr_inst_esc2','grammar.py',157),
+  ('Inst -> ESCREVER NUMERO , Inst','Inst',4,'p_expr_inst_esc2','grammar.py',158),
+  ('V -> IDENTIFICADOR ATRIBUICAO E','V',3,'p_expr_atrib','grammar.py',162),
+  ('V -> IDENTIFICADOR ATRIBUICAO STRING','V',3,'p_expr_atrib','grammar.py',163),
+  ('V -> VAR IDENTIFICADOR ATRIBUICAO E','V',4,'p_expr_atrib2','grammar.py',169),
+  ('V -> VAR IDENTIFICADOR ATRIBUICAO E , V','V',6,'p_expr_atrib2','grammar.py',170),
+  ('E -> E + E','E',3,'p_expr_op','grammar.py',176),
+  ('E -> E - E','E',3,'p_expr_op','grammar.py',177),
+  ('E -> E * E','E',3,'p_expr_op','grammar.py',178),
+  ('E -> E : E','E',3,'p_expr_op','grammar.py',179),
+  ('E -> - E','E',2,'p_expr_sinalmenos','grammar.py',183),
+  ('E -> ( E )','E',3,'p_expr_pare','grammar.py',187),
+  ('E -> NUMERO','E',1,'p_expr_num','grammar.py',191),
+  ('E -> IDENTIFICADOR','E',1,'p_expr_var','grammar.py',195),
 ]

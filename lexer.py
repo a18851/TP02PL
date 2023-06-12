@@ -49,7 +49,7 @@ class ALexer:
         return t
 
     def t_STRING(self, t):
-        r'\"([0-9]*[A-Za-z]*)*\"'
+        r"""\'[A-Za-z]+[0-9]*\'"""
         t.value = t.value[1:-1]  # Remover as aspas
         return t
 

@@ -106,7 +106,6 @@ class AGrammar:
 #            print("Syntax error: unexpected end of file")
 #        exit(1)
 
-class MyParser:
     precedence = (
         ('left', '+', '-'),
         ('left', '*'),
@@ -148,21 +147,30 @@ class MyParser:
         p[0] = p[1]
 
     def p_expr_inst_esc(self, p):
-        """Inst : ESCREVER E"""
+        """Inst : ESCREVER E
+                | ESCREVER STRING
+                | ESCREVER NUMERO """
         p[0] = {'op': 'esc', 'args': [p[2]]}
 
     def p_expr_inst_esc2(self, p):
-        """Inst : ESCREVER STRING"""
+        """ Inst : ESCREVER E ',' Inst
+                 | ESCREVER STRING ',' Inst
+                 | ESCREVER NUMERO ',' Inst"""
         p[0] = {'op': 'esc', 'args': [p[2]]}
 
     def p_expr_atrib(self, p):
-        """V : IDENTIFICADOR ATRIBUICAO E"""
+        """V : IDENTIFICADOR ATRIBUICAO E
+             | IDENTIFICADOR ATRIBUICAO STRING """
         variable_name = p[1]
-        if variable_name in self.variables:
-            print(f"Error: Variable '{variable_name}' already declared.")
-            exit(1)
         self.variables[variable_name] = p[3]
         p[0] = dict(op='atr', args=[variable_name, p[3]])
+
+    def p_expr_atrib2(self, p):
+        """V : VAR IDENTIFICADOR ATRIBUICAO E
+             | VAR IDENTIFICADOR ATRIBUICAO E ',' V"""
+        variable_name = p[2]
+        self.variables[variable_name] = p[4]
+        p[0] = dict(op='atr', args=[variable_name, p[4]])
 
     def p_expr_op(self, p):
         """E : E '+' E
@@ -198,21 +206,3 @@ class MyParser:
             print("Syntax error: unexpected end of file")
         exit(1)
 
-
-"""" Exemplo de uso
-parser = MyParser()
-parser.build()
-
-code = 
-    VAR ano = 2023, mes="maio", dia ;
-    valor = ENTRADA();
-    ate10 = ALEATORIO(10);
-    tmp = 7+3 ;
-    a = 10 + (30 + tmp) ;
-    a++;
-    a += 10;
-    b = tmp * (a + 10);
-    ESCREVER b
-
-parser.parse(code)
-"""
