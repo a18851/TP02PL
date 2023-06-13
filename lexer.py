@@ -27,6 +27,8 @@ class ALexer:
 
     # Expressões regulares para os tokens
 
+
+
     def t_VAR(self, t):
         r'VARS'
         return t

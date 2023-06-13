@@ -199,7 +199,29 @@ class AGrammar:
             exit(1)
         p[0] = {'var': variable_name}
 
-    def p_error(self, p):
+        def p_ciclo(self, p):
+            'ciclo : PARA IDENTIFICADOR EM "[" NUMERO ELIPSIS NUMERO "]" FAZER lista_instrucoes FIM PARA'
+            p[0] = {'tipo': 'ciclo', 'variavel': p[2], 'inicio': p[5], 'fim': p[7], 'instrucoes': p[10]}
+
+        def p_lista_instrucoes(self, p):
+            '''
+            lista_instrucoes : instrucao
+                             | instrucao lista_instrucoes
+            '''
+            if len(p) == 2:
+                p[0] = [p[1]]
+            else:
+                p[0] = [p[1]] + p[2]
+
+            def p_escrita_multiple(self, p):
+                '''escrita : escrita ',' STRING'''
+                p[0] = p[1] + ', ' + p[3]
+
+            def p_escrita_single(self, p):
+                '''escrita : ESCREVER STRING'''
+                p[0] = p[2]
+
+def p_error(self, p):
         if p:
             print(f"Syntax error: unexpected '{p.type}'")
         else:
