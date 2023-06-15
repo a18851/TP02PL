@@ -14,7 +14,7 @@ exemplos = [# exemplos a avaliar de forma independente...
             "F=10; G=3*-5+7;",   #"3*-5+7"  3*(-5)+7
             "G=3*F; H=G*2;",
             "I=-2; J=I*-2; K=I+1;",
-            "VARS i='deded' ;"
+            "PARA x EM [ 10 ... 20 ] FAZER , FIM;"
             ]
 for frase in exemplos:
     print(f"----------------------")

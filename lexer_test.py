@@ -1,7 +1,7 @@
 from lexer import ALexer
 al = ALexer()
 al.build()
-al.input("F=10;")
+al.input("PARA x EM [ 10 ... 20 ] FAZER , FIM PARA;")
 
 while True:
     tk = al.token()
