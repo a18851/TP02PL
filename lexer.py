@@ -5,115 +5,54 @@ class ALexer:
     # Definição dos tokens
     tokens = (
         'VAR',
-        'VARS',
-        'CARACTER',
-        'REAL',
-        'INTEIRO',
+        'NUMERO',
+        'STRING',
+        'IDENTIFICADOR',
         'ATRIBUICAO',
         'PARA',
         'FAZER',
         'FIM',
-        'EM',
-        'SE',
-        'SENAO',
-        'ENTAO',
-        'FIM_SE',
-        'FUNCAO',
-        'FIM_FUNCAO',
-        'NOT',
         'ESCREVER',
         'ENTRADA',
         'ALEATORIO',
         'COMENTARIO',
         'ELIPSIS',
-        'DEFINITION_INTEIRO',
-        'DEFINITION_REAL',
-        'DEFINITION_CARACTER',
-        'DEFENITION_LOGICO',
-        'AND',
-        'OR',
-        'XOR',
-        'TRUE',
-        'FALSE',
-        'NOT_EQUAL',
-        'EQUAL',
-        'BIGGER',
-        'BIGGER_EQUAL',
-        'SMALLER',
-        'SMALLER_EQUAL'
+        'EM',
+        'COMENTARIO_MULTILINHA'
     )
 
     literals =";()+-*/[]^%:.{},"
-    t_ignore = "\t\n"
+    t_ignore = "\t "
 
 
     # Expressões regulares para os tokens
 
-    def t_DEFINITION_INTEIRO(self, t):
-        r"""inteiro"""
+
+
+    def t_VAR(self, t):
+        r'VARS'
         return t
 
-    def t_DEFINITION_REAL(self, t):
-        r"""real"""
+    def t_ESCREVER(self, t):
+        r'ESCREVER|escrever|esc|ESC'
         return t
 
-    def t_DEFINITION_CARACTER(self, t):
-        r"""caracter"""
+    def t_NUMERO(self, t):
+        r'[0-9]+'
+        t.value = int(t.value)
         return t
 
-    def t_DEFENITION_LOGICO(self, t):
-        r"""logico"""
+    def t_IDENTIFICADOR(self, t):
+        r'[a-zA-Z]+'
         return t
 
-    def t_AND(self, t):
-        """and"""
-        t.type = "and"
+    def t_ATRIBUICAO(self, t):
+        r'='
         return t
 
-    def t_OR(self, t):
-        """or"""
-        t.type = "or"
-        return t
-
-    def t_XOR(self, t):
-        """xor"""
-        t.type = "xor"
-        return t
-
-    def t_ELIPSIS(self, t):
-        r'\.\.\.'
-        return t
-
-    def t_EM(self, t):
-        r'EM|em'
-        return t
-
-    def t_SE(self, t):
-        r'SE|se'
-        return t
-
-    def t_SENAO(self, t):
-        r'SENAO|senao'
-        return t
-
-    def t_ENTAO(self, t):
-        r'ENTAO|entao'
-        return t
-
-    def t_FIM_SE(self, t):
-        r'FIM_SE|fim_se'
-        return t
-
-    def t_FUNCAO(self, t):
-        r'funcao|FUNCAO'
-        return t
-
-    def t_FIM_FUNCAO(self, t):
-        r'FIM_FUNCAO|fim_funcao'
-        return t
-
-    def t_NOT(self, t):
-        r'NOT|not'
+    def t_STRING(self, t):
+        r"""\'[A-Za-z]+[0-9]*\'"""
+        t.value = t.value[1:-1]  # Remover as aspas
         return t
 
     def t_ENQUANTO(self, t):
@@ -132,77 +71,29 @@ class ALexer:
         r'FIM|fim'
         return t
 
-    def t_VARS(self, t):
-        r'VARS'
+    def t_ENTRADA(self, t):
+        r'ENTRADA\(\)|entrada\(\)'
         return t
 
-    def t_ESCREVER(self, t):
-        r'ESCREVER|escrever|esc|ESC'
+    def t_ALEATORIO(self, t):
+        r'ALEATORIO\(\d+\)|aleatorio\(\d+\)'
         return t
 
-    def t_CARACTER(self, t):
-        r'"[^"]*"'
-        t.type = "caracter"
-        t.value = t.value[1:-1]
+    def t_ELIPSIS(self, t):
+        r'\.\.\.'
         return t
 
-    def t_REAL(self, t):
-        r"""\d+\.\d+"""
-        t.value = float(t.value)
+    def t_EM(self, t):
+        r'EM|em'
         return t
 
-    def t_INTEIRO(self, t):
-        r"""\d+"""
-        t.value = int(t.value)
+    def t_COMENTARIO(self, t):
+        r'//.*|\/\*(.|\n)*?\*\/'
         return t
 
-    def t_ATRIBUICAO(self, t):
-        r'='
+    def t_COMENTARIO_MULTILINHA(self, t):
+        r'\r//.*|\/\*(.|\n)*?\*\/'
         return t
-
-    def t_EQUAL(self, t):
-        r"""=="""
-        return t
-
-    def t_NOT_EQUAL(self, t):
-        r"""!="""
-        return t
-
-    def t_TRUE(self, t):
-        r"""(true)|(True)"""
-        t.value = bool(t.value)
-        t.type = "true"
-        return t
-
-    def t_FALSE(self, t):
-        r"""(false)|(False)"""
-        t.value = bool(t.value)
-        t.type = "false"
-        return t
-
-    def t_SMALLER(self, t):
-        r"""<|(<=)"""
-        if t.value == "<=":
-            t.type = "smaller_equal"
-        else:
-            t.type = "smaller"
-        return t
-
-    def t_BIGGER(self, t):
-        r""">|(>=)"""
-        if t.value == ">=":
-            t.type = "bigger_equal"
-        else:
-            t.type = "bigger_equal"
-        return t
-
-    def t_VAR(self, t):
-        r"""[a-z_]+[0-9]*"""
-        t.type = "var"
-        return t
-
-
-
 
     def __init__(self):
         self.lexer = None
