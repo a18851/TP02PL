@@ -4,11 +4,13 @@ class ALexer:
 
     # Definição dos tokens
     tokens = (
+        'ID',
         'VAR',
-        'VARS',
+        'V',
         'CARACTER',
         'REAL',
         'INTEIRO',
+        'STRING',
         'ATRIBUICAO',
         'PARA',
         'FAZER',
@@ -22,9 +24,6 @@ class ALexer:
         'FIM_FUNCAO',
         'NOT',
         'ESCREVER',
-        'ENTRADA',
-        'ALEATORIO',
-        'COMENTARIO',
         'ELIPSIS',
         'DEFINITION_INTEIRO',
         'DEFINITION_REAL',
@@ -44,10 +43,14 @@ class ALexer:
     )
 
     literals =";()+-*/[]^%:.{},"
-    t_ignore = "\t\n"
+    t_ignore = "\t\n "
 
 
     # Expressões regulares para os tokens
+
+    def t_V(self, t):
+        r'VAR'
+        return t
 
     def t_DEFINITION_INTEIRO(self, t):
         r"""inteiro"""
@@ -132,10 +135,6 @@ class ALexer:
         r'FIM|fim'
         return t
 
-    def t_VARS(self, t):
-        r'VARS'
-        return t
-
     def t_ESCREVER(self, t):
         r'ESCREVER|escrever|esc|ESC'
         return t
@@ -144,6 +143,14 @@ class ALexer:
         r'"[^"]*"'
         t.type = "caracter"
         t.value = t.value[1:-1]
+        return t
+
+    def t_STRING(self, t):
+        r'"([^"\\]|\\.)*"'
+        return t
+
+    def t_ID(self, t):
+        r'[a-zA-Z_][a-zA-Z0-9_]*'
         return t
 
     def t_REAL(self, t):
@@ -201,9 +208,6 @@ class ALexer:
         t.type = "var"
         return t
 
-
-
-
     def __init__(self):
         self.lexer = None
 
@@ -220,44 +224,3 @@ class ALexer:
     def t_error(self, t):
         print("Token inesperado: [{}]".format(t.value[:10]))
         exit(1)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

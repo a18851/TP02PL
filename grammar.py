@@ -4,17 +4,12 @@ from lexer import ALexer
 class AGrammar:
 
     precedence = (
-        ("left", "OR", "XOR"),  # lower priority
+        ("left", "OR", "XOR"),
         ("left", "AND"),
-        ("left", "BIGGER"),
-        ("left", "BIGGER_EQUAL"),
-        ("left", "SMALLER"),
-        ("left", "SMALLER_EQUAL"),
-        ("left", "EQUAL"),
-        ("left", "NOT_EQUAL"),
+        ("left", "BIGGER", "BIGGER_EQUAL", "SMALLER", "SMALLER_EQUAL", "EQUAL", "NOT_EQUAL"),
         ("left", "+", "-"),
         ("left", "*", "/"),
-        ("right", "uminus"),  # higher priority - numeros negativos
+        ("right", "uminus"),
     )
 
     def __init__(self):
@@ -33,9 +28,19 @@ class AGrammar:
         self.lexer.input(string)
         return self.yacc.parse(lexer=self.lexer.lexer)
 
-    def p_code1(self, p):
-        """ code : com_list """
-        p[0] = [p[1]]
+    def p_s(self, p):
+        """ S : LstV ';' """
+        p[0] = p[1]
+
+    def p_expr_tail(self, p):
+        """ LstV :  LstV ';' command """
+        lstArgs = p[1]['args']
+        lstArgs.append(p[3])
+        p[0] = dict(op='seq', args= lstArgs)
+
+    def p_expr_head(self, p):
+        """ LstV :  com_list """
+        p[0] = dict(op='seq', args=[p[1]])
 
     def p_com_list(self, p):
         """ com_list : command
@@ -43,30 +48,35 @@ class AGrammar:
         if len(p) == 2:
             p[0] = [p[1]]
         else:
-            p[0] = [p[1]]
-            p[0].append(p[2])
+            p[0] = p[1] + [p[2]]
 
     def p_command1(self, p):
-        """ command : e ';'
-                    | ciclo_for
+        """ command : V STRING ATRIBUICAO var_list  """
+        variable_name = p[2]
+        self.variables[variable_name] = p[4]
+        p[0] = dict(op='atr', args=[variable_name, p[4]])
+
+    def p_command2(self, p):
+        """ command : ESCREVER STRING ';'
+                    | ESCREVER e
+                    | ESCREVER var_list """
+        p[0] = {'op': 'esc', 'args': [p[2]]}
+
+    def p_command3(self, p):
+        """ command : ID ATRIBUICAO e_list """
+        variable_name = p[1]
+        self.variables[variable_name] = p[3]
+        p[0] = {'op': 'atr', 'args': [variable_name, p[3]]}
+
+    def p_command4(self, p):
+        """ command : ciclo_for
                     | callfunc ';'
                     | if
                     | func """
         p[0] = p[1]
 
-    def p_command2(self, p):
-        """ command : VARS VAR ATRIBUICAO var_list ';' """
-        variable_name = p[2]
-        self.variables[variable_name] = p[4]
-        p[0] = dict(op='atr', args=[variable_name, p[4]])
-
-    def p_command3(self, p):
-        """ command : ESCREVER var_list
-                    | ESCREVER e_list """
-        p[0] = {'op': 'esc', 'args': [p[2]]}
-
     def p_ciclo_for(self, p):
-        """ ciclo_for : PARA VARS EM "[" INTEIRO ELIPSIS INTEIRO "]" FAZER com_list FIM """
+        """ ciclo_for : PARA ID EM "[" INTEIRO ELIPSIS INTEIRO "]" FAZER com_list FIM """
         p[0] = {'tipo': 'ciclo', 'variavel': p[2], 'inicio': p[5], 'fim': p[7], 'instrucoes': p[10]}
 
         if len(p) == 12:
@@ -153,19 +163,23 @@ class AGrammar:
             p[0] = p[1] + [p[3]]
 
     def p_e1(self, p):
-        """ e : REAL
+        """ e : ID
+              | REAL
               | INTEIRO
               | CARACTER
               | condicao
               | '-' e  %prec uminus  """
-        p[0] = p[1] if len(p) == 2 else {"op": "-", "args": [0, p[2]]}
+        if p[1] in self.variables:
+            p[0] = self.variables[p[1]]
+        else:
+            p[0] = p[1] if len(p) == 2 else dict(op='-', args=[p[2]])
 
     def p_e2(self, p):
         """ e : e '*' e
               | e '/' e
               | e '+' e
               | e '-' e """
-        p[0] = dict(op=p[2], args=[p[1], p[3]])
+        p[0]=dict(op=p[2],args= [ p[1] , p[3]] )
 
     def p_e3(self, p):
         """ e : logico
@@ -180,10 +194,6 @@ class AGrammar:
     def p_e4(self, p):
         """ e : '(' e ')' """
         p[0] = p[2]
-
-    def p_e5(self, p):
-        """ e : VAR """
-        p[0] = {"var": p[1]}
 
     def p_condicao(self, p):
         """ condicao : e SMALLER e
@@ -215,8 +225,8 @@ class AGrammar:
 
     def p_error(self, p):
         if p:
-            raise Exception(f"Parse Error: Unexpected token '{p.type}' line '{p.lineno}'")
+            print(f"Syntax error: unexpected '{p.type}'")
         else:
-            raise Exception("Parse Error: Expecting token")
-
+            print("Syntax error: unexpected end of file")
+        exit(1)
 
