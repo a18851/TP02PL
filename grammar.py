@@ -51,7 +51,8 @@ class AGrammar:
             p[0] = p[1] + [p[2]]
 
     def p_command1(self, p):
-        """ command : V STRING ATRIBUICAO var_list  """
+        """ command : V STRING
+                    | V STRING ATRIBUICAO var_list  """
         variable_name = p[2]
         self.variables[variable_name] = p[4]
         p[0] = dict(op='atr', args=[variable_name, p[4]])
@@ -70,9 +71,10 @@ class AGrammar:
 
     def p_command4(self, p):
         """ command : ciclo_for
-                    | callfunc ';'
                     | if
-                    | func """
+                    """
+                    #| callfunc ';'
+                    #| func
         p[0] = p[1]
 
     def p_ciclo_for(self, p):
@@ -109,43 +111,43 @@ class AGrammar:
                 "args": [p[2]],
                 "data": [p[4], p[6]]
             }
-
-    def p_func(self, p):
-        """ func : FUNCAO VAR '(' var_fun_list ')' com_list FIM_FUNCAO
-                 | FUNCAO VAR '(' ')' com_list FIM_FUNCAO """
-        if len(p) == 8:
-            p[0] = {
-                "op": "func",
-                "args": [],
-                "data": [p[2], p[4], p[6]]
-            }
-        else:
-            p[0] = {
-                "op": "func",
-                "args": [],
-                "data": [p[2], [], p[6]]
-            }
-
-    def p_callfunc(self, p):
-        """ callfunc : VAR '(' e_list ')'
-                     | VAR '(' ')'  """
-        p[0] = {"op": "call",
-                "args": [],
-                "data": [p[1], [] if p[3] == ')' else p[3]]}
-
-    def p_var_fun_list(self, p):
-        """ var_fun_list : var_fun
-                         | var_fun_list ',' var_fun """
-        if len(p) == 2:
-            p[0] = [p[1]]
-        else:
-            p[0] = p[1] + [p[3]]
-
-    def p_var_fun(self, p):
-        """ var_fun : type VAR """
-        if len(p) == 3:
-            p[0] = {"var": p[2], "type": p[1], "scope": "local"}
-
+#
+#    def p_func(self, p):
+#        """ func : FUNCAO VAR '(' var_fun_list ')' com_list FIM_FUNCAO
+#                 | FUNCAO VAR '(' ')' com_list FIM_FUNCAO """
+#        if len(p) == 8:
+#            p[0] = {
+#                "op": "func",
+#                "args": [],
+#                "data": [p[2], p[4], p[6]]
+#            }
+#        else:
+#            p[0] = {
+#                "op": "func",
+#                "args": [],
+#                "data": [p[2], [], p[6]]
+#            }
+#
+#    def p_callfunc(self, p):
+#        """ callfunc : VAR '(' e_list ')'
+#                     | VAR '(' ')'  """
+#        p[0] = {"op": "call",
+#                "args": [],
+#                "data": [p[1], [] if p[3] == ')' else p[3]]}
+#
+#    def p_var_fun_list(self, p):
+#        """ var_fun_list : var_fun
+#                         | var_fun_list ',' var_fun """
+#        if len(p) == 2:
+#            p[0] = [p[1]]
+#        else:
+#            p[0] = p[1] + [p[3]]
+#
+#    def p_var_fun(self, p):
+#        """ var_fun : type VAR """
+#        if len(p) == 3:
+#            p[0] = {"var": p[2], "type": p[1], "scope": "local"}
+#
     def p_var_list(self, p):
         """ var_list : VAR
                      | var_list ',' VAR """
@@ -204,13 +206,13 @@ class AGrammar:
                      | e NOT_EQUAL e """
         p[0] = dict(op=p[2], args=[p[1], p[3]])
 
-    def p_type(self, p):
-        """ type : DEFINITION_INTEIRO
-                 | DEFINITION_REAL
-                 | DEFINITION_CARACTER
-                 | DEFENITION_LOGICO """
-        p[0] = p[1]
-
+#    def p_type(self, p):
+#        """ type : DEFINITION_INTEIRO
+#                 | DEFINITION_REAL
+#                 | DEFINITION_CARACTER
+#                 | DEFENITION_LOGICO """
+#        p[0] = p[1]
+#
     def p_l1(self, p):
         """ logico : TRUE """
         p[0] = True
@@ -229,4 +231,3 @@ class AGrammar:
         else:
             print("Syntax error: unexpected end of file")
         exit(1)
-

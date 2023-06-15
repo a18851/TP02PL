@@ -177,14 +177,12 @@ class ALexer:
 
     def t_TRUE(self, t):
         r"""(true)|(True)"""
-        t.value = bool(t.value)
-        t.type = "true"
+        t.value = True
         return t
 
     def t_FALSE(self, t):
         r"""(false)|(False)"""
-        t.value = bool(t.value)
-        t.type = "false"
+        t.value = False
         return t
 
     def t_SMALLER(self, t):

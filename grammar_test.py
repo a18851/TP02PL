@@ -14,6 +14,7 @@ exemplos = [
     "G=3*(5+7); H=G*2;",
     "I=-2; J=I*-2; G=I+1;",
     string,
+    "PARA x EM [ 10 ... 20 ] FAZER x + 1 FIM",
     "VAR x;"
 ]
 
